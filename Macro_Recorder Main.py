@@ -1,36 +1,44 @@
-import time
-import cv2
 import os
+from pathlib import Path
+import time
+
+import cv2
+import numpy as np
 import pyautogui
 import win32gui
-import numpy as np
-from pathlib import Path
 from pywinauto.application import Application
-from image_locater import locate_image as loc_image  # Renamed to avoid conflict
-from record_macro import record_macro
+
 from batch_saver import save_macro_to_batch
+from image_locater import locate_image as loc_image  # renamed to avoid conflict
+from record_macro import record_macro
 
 
 def main():
     """
     Main function that calls the other functions to record a macro and save it to a batch file.
     """
+    try:
+        print("Recording macro...")
+        actions = record_macro()
+        if not actions:
+            raise ValueError("No actions recorded")
 
-    print("Recording macro...")
-    actions = record_macro()
-    print("Macro recorded successfully!")
+        print("Macro recorded successfully!")
 
-    # Define paths for saving batch file and image references
-    batch_file_path = Path.cwd() / 'Macro_Recorder' / 'Batch_Files'
-    target_image_folder = Path.cwd() / 'Macro_Recorder' / 'Reference_Images'
+        # Define paths for saving batch file and image references
+        current_directory = Path.cwd()
+        batch_file_path = current_directory / 'Macro_Recorder' / 'Batch_Files'
+        target_image_folder = current_directory / 'Macro_Recorder' / 'Reference_Images'
 
-    # Make directories if they don't exist already
-    batch_file_path.mkdir(parents=True, exist_ok=True)
-    target_image_folder.mkdir(parents=True, exist_ok=True)
+        # Create directories if they don't exist already
+        batch_file_path.mkdir(parents=True, exist_ok=True)
+        target_image_folder.mkdir(parents=True, exist_ok=True)
 
-    save_macro_to_batch(actions, str(batch_file_path / 'macro.bat'), str(target_image_folder))
+        save_macro_to_batch(actions, str(batch_file_path / 'macro.bat'), str(target_image_folder))
 
-    print(f"Macro saved to {batch_file_path}")
+        print(f"Macro saved to {batch_file_path}")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 if __name__ == '__main__':
