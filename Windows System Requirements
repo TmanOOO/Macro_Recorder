@@ -1,0 +1,9 @@
+@echo off
+echo Installing required Python modules...
+
+pip install numpy==1.21.2
+pip install opencv-python-headless==4.5.3.56
+pip install pyautogui==0.9.53
+pip install pywinauto==0.6.8.post1
+
+echo All modules have been installed.

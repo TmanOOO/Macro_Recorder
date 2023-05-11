@@ -1,27 +1,10 @@
 import os
 from pathlib import Path
 import time
-
 import cv2
 import numpy as np
 import pyautogui
 from pywinauto.application import Application
-
-# Add the new code below this line
-import sys
-
-if sys.platform == 'win32':
-    # Windows-specific code
-    import win32gui
-elif sys.platform == 'darwin':
-    # macOS-specific code
-    import Cocoa
-else:
-    raise NotImplementedError(f"Unsupported platform: {sys.platform}")
-
-import subprocess
-# Install required packages using pip
-subprocess.check_call(["pip", "install", "-r", "requirements.txt"])
 
 from batch_saver import save_macro_to_batch
 from image_locater import locate_image as loc_image  # renamed to avoid conflict
