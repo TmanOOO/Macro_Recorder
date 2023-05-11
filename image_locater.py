@@ -2,6 +2,7 @@ import cv2
 import time
 import numpy as np
 import pyautogui
+import win32gui  
 
 def locate_image(image_path):
     try:
@@ -12,11 +13,21 @@ def locate_image(image_path):
         if target_image is None:
             raise ValueError("Could not load image at: {}".format(image_path))
         
-        while True:
-            # Take a screenshot of the screen
-            screenshot = pyautogui.screenshot()
-            screenshot = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
+        # Enumerate all windows
+        def window_callback(hwnd, screenshot):
+            rect = win32gui.GetWindowRect(hwnd)
+            x, y, width, height = rect
+            if x >= 0 and y >= 0 and width > 0 and height > 0:
+                # Take a screenshot of the window and convert it to BGR format
+                img = np.array(pyautogui.screenshot(region=rect))
+                img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                screenshot.append(img)
+        
+        screenshots = []
+        win32gui.EnumWindows(window_callback, screenshots)
 
+        # Iterate over all screenshots and look for a match
+        for screenshot in screenshots:
             # Use template matching to find the target image within the screenshot
             result = cv2.matchTemplate(screenshot, target_image, cv2.TM_CCOEFF_NORMED)
             min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
