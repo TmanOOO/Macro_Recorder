@@ -5,7 +5,6 @@ import time
 import cv2
 import numpy as np
 import pyautogui
-import win32gui
 from pywinauto.application import Application
 
 # Add the new code below this line
