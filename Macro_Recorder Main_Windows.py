@@ -6,9 +6,9 @@ import numpy as np
 import pyautogui
 from pywinauto.application import Application
 
-from batch_saver import save_macro_to_batch
-from image_locater import locate_image as loc_image  # renamed to avoid conflict
-from record_macro import record_macro
+from functions.batch_saver import save_macro_to_batch
+from functions.record_macro import record_macro
+from functions.image_locater import locate_image as loc_image
 
 
 def main():

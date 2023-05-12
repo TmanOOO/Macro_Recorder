@@ -1,7 +1,7 @@
 import pyautogui
 import win32gui
 from pywinauto.application import Application
-from image_locater import locate_image as loc_image  # Renamed to avoid conflict
+from functions.image_locater import locate_image as loc_image  # Renamed to avoid conflict
 from pathlib import Path
 
 
